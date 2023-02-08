@@ -1,0 +1,31 @@
+version: '3.4'
+
+services:
+  postgresql:
+    restart: on-failure
+    container_name: graphql-db
+    image: postgres:14-alpine
+    environment:
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: graphql-password
+      POSTGRES_DB: graphql
+    ports:
+      - '5432:5432'
+    volumes:
+      - graphql-pgdata:/var/lib/postgresql/data
+  api:
+    restart: on-failure
+    container_name: graphql-api
+    build:
+      context: ../api
+      dockerfile: ../api/.Dockerfile
+    ports:
+      - '3000:3000'
+    command: yarn start:dev
+    volumes:
+      - ../api/src:/app/src
+
+volumes:
+  graphql-pgdata:
+    driver: local
