@@ -19,13 +19,24 @@ services:
     container_name: graphql-api
     depends_on: [postgresql]
     build:
-      context: ../api
-      dockerfile: ../api/.Dockerfile
+      context: ../graphql-api
+      dockerfile: ../graphql-api/.Dockerfile
     ports:
-      - '3000:3000'
+      - '8080:8080'
     command: yarn start:dev
     volumes:
-      - ../api/src:/app/src
+      - ../graphql-api/src:/app/src
+
+  web:
+    restart: on-failure
+    container_name: graphql_web
+    build:
+      context: ../graphql-web
+      dockerfile: ../graphql-web/.Dockerfile
+    ports:
+      - '3000:3000'
+    volumes:
+      - ../graphql-web/src:/app/src
 
 volumes:
   graphql-pgdata:
