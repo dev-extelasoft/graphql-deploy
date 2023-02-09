@@ -23,7 +23,6 @@ services:
       dockerfile: ../graphql-api/.Dockerfile
     ports:
       - '8080:8080'
-    command: yarn start:dev
     volumes:
       - ../graphql-api/src:/app/src
 
